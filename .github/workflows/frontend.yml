@@ -1,0 +1,46 @@
+# Name of the workflow
+name: Frontend Project
+# event on which to trigger the workflow
+on: push
+# the jobs in the workflow
+jobs:
+  # Name of the job
+  test:
+    # The runner to use
+    runs-on: ubuntu-latest
+    # The steps to execute
+    steps:
+      # Step to fetch the code from the repo
+      - name: Checkout
+        # The actions that the step uses
+        uses: actions/checkout@v5.0.0
+      
+        #  # Step to install the latest node.js
+      - name: Setup Node.js environment
+        # The actions that the step uses
+        uses: actions/setup-node@v5.0.0
+        # Specific configuration for the action
+        with:
+          # Update to the latest node lts version
+          node-version: "20"
+
+        # Step to install the node modules
+      - name: Install node dependencies
+        # define the working directory for the command
+        working-directory: ./frontend
+        # Install modules from packages.json
+        run: npm install
+
+        # Step to check code formatting and style
+      - name: Check code formating and style
+        # define the working directory for the command
+        working-directory: ./frontend
+        # Run the lint command
+        run: npm run lint
+
+        # Step to run the tests
+      - name: Run tests
+        # define the working directory for the command
+        working-directory: ./frontend
+        # Run the tests
+        run: npm run test
