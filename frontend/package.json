@@ -8,7 +8,7 @@
 		"build": "vite build",
 		"lint": "biome check --fix ./src ./public",
 		"preview": "vite preview",
-		"test": "jest"
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"react": "^19.1.1",
