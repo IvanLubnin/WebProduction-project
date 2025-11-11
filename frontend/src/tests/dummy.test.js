@@ -1,4 +1,5 @@
-// frontend/src/__tests__/dummy.test.js
+import { test, expect } from 'vitest'
+
 test('dummy test — always passes', () => {
-  expect(true).toBe(true);
-});
+  expect(true).toBe(true)
+})
