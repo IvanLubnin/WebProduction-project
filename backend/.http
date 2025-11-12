@@ -1,0 +1,21 @@
+### check if server is running
+GET http://localhost:3000/
+
+### registration of a new user
+POST http://localhost:3000/api/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "password": "mypassword"
+}
+
+### authentication of the registered user
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "email": "testuser@example.com",
+  "password": "mypassword"
+}

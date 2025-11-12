@@ -36,7 +36,7 @@ export default function AuthPage() {
       if (!res.ok) {
         setError(data.error || "Login failed");
       } else {
-        setMessage("✅ Login successful!");
+        setMessage("Login successful!");
         console.log("Login response:", data);
       }
     } catch (err) {
@@ -57,7 +57,7 @@ export default function AuthPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:4000/api/register", {
+      const res = await fetch("http://localhost:3000/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
