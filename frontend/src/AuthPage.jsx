@@ -10,6 +10,7 @@ export default function AuthPage() {
     repeatPassword: "",
   });
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleLoginChange = (e) =>
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -17,21 +18,74 @@ export default function AuthPage() {
   const handleRegisterChange = (e) =>
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
 
-  const handleLogin = (e) => {
+  // === LOGIN ===
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login:", loginData);
+    setMessage("");
+    setError("");
+
+    try {
+      const res = await fetch("http://localhost:4000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Login failed");
+      } else {
+        setMessage("✅ Login successful!");
+        console.log("Login response:", data);
+      }
+    } catch (err) {
+      setError("Server connection error");
+      console.error(err);
+    }
   };
 
-  const handleRegister = (e) => {
+  // === REGISTER ===
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
+    setMessage("");
 
     if (registerData.password !== registerData.repeatPassword) {
       setError("Passwords do not match");
       return;
     }
 
-    console.log("Register:", registerData);
+    try {
+      const res = await fetch("http://localhost:4000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: registerData.username,
+          email: registerData.email,
+          password: registerData.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Registration failed");
+      } else {
+        setMessage("🎉 Account created successfully!");
+        console.log("Register response:", data);
+
+        setRegisterData({
+          username: "",
+          email: "",
+          password: "",
+          repeatPassword: "",
+        });
+      }
+    } catch (err) {
+      setError("Server connection error");
+      console.error(err);
+    }
   };
 
   return (
@@ -122,6 +176,7 @@ export default function AuthPage() {
           </label>
 
           {error && <p className="error-message">{error}</p>}
+          {message && <p className="success-message">{message}</p>}
 
           <button type="submit" className="register-btn">
             Create Account
