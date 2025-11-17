@@ -1,5 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AuthPage.css";
+
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
 export default function AuthPage() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -11,6 +15,8 @@ export default function AuthPage() {
   });
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLoginChange = (e) =>
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -25,7 +31,7 @@ export default function AuthPage() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3000/api/login", {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),
@@ -36,8 +42,8 @@ export default function AuthPage() {
       if (!res.ok) {
         setError(data.error || "Login failed");
       } else {
-        setMessage("Login successful!");
         console.log("Login response:", data);
+        navigate("/tasks"); // go to tasks page
       }
     } catch (err) {
       setError("Server connection error");
@@ -57,7 +63,7 @@ export default function AuthPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/register", {
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -72,15 +78,9 @@ export default function AuthPage() {
       if (!res.ok) {
         setError(data.error || "Registration failed");
       } else {
-        setMessage("🎉 Account created successfully!");
         console.log("Register response:", data);
-
-        setRegisterData({
-          username: "",
-          email: "",
-          password: "",
-          repeatPassword: "",
-        });
+        // сразу ведём на страницу задач
+        navigate("/tasks");
       }
     } catch (err) {
       setError("Server connection error");

@@ -2,7 +2,7 @@
 GET http://localhost:3000/
 
 ### registration of a new user
-POST http://localhost:3000/api/register
+POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
@@ -19,3 +19,21 @@ Content-Type: application/json
   "email": "testuser@example.com",
   "password": "mypassword"
 }
+
+### create task
+POST http://localhost:3000/api/tasks
+Content-Type: application/json
+
+{
+  "title": "First task",
+  "description": "Test task",
+  "priority": "high",
+  "dueDate": "2025-11-30",
+  "assignedTo": 1
+}
+
+### list tasks
+GET http://localhost:3000/api/tasks
+
+### search tasks
+GET http://localhost:3000/api/tasks?search=First

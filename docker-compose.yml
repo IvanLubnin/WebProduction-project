@@ -23,7 +23,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      PGHOST: db
+      PGHOST: db             
       PGUSER: teamboard
       PGPASSWORD: teamboard
       PGDATABASE: teamboard

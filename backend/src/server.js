@@ -2,8 +2,9 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import "./db.js";          // <- just import to init DB connection
+import "./db/db.js"; 
 import authRoutes from "./routes/auth.js";
+import taskRoutes from "./routes/tasks.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes); // full paths: /api/auth/register, /api/auth/login
+app.use("/api/tasks", taskRoutes); // full path: /api/tasks
 
 app.get("/", (req, res) => {
   res.send("Backend is running");
