@@ -1,16 +1,18 @@
-import { env } from "./env.js";
+// backend/src/middlewares.js
+import jwt from "jsonwebtoken";
 
-export function notFound(req, res, next) {
-	res.status(404);
-	const error = new Error(`🔍 - Not Found - ${req.originalUrl}`);
-	next(error);
-}
+export function authRequired(req, res, next) {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return res.status(401).json({ message: "Access token missing" });
+  }
 
-export function errorHandler(err, _req, res, _next) {
-	const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
-	res.status(statusCode);
-	res.json({
-		message: err.message,
-		stack: env.NODE_ENV === "production" ? "🥞" : err.stack,
-	});
+  jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Invalid or expired token" });
+    }
+
+    req.user = decoded; // adding user's data into req
+    next();
+  });
 }
