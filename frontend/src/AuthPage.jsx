@@ -43,6 +43,14 @@ export default function AuthPage() {
         setError(data.error || "Login failed");
       } else {
         console.log("Login response:", data);
+        // save logged-in user for UI state
+        if (data.user) {
+          try {
+            localStorage.setItem("user", JSON.stringify(data.user));
+          } catch (err) {
+            console.warn("Failed to save user to localStorage", err);
+          }
+        }
         navigate("/tasks"); // go to tasks page
       }
     } catch (err) {
@@ -79,7 +87,14 @@ export default function AuthPage() {
         setError(data.error || "Registration failed");
       } else {
         console.log("Register response:", data);
-        // сразу ведём на страницу задач
+        // save created user and navigate to tasks
+        if (data.user) {
+          try {
+            localStorage.setItem("user", JSON.stringify(data.user));
+          } catch (err) {
+            console.warn("Failed to save user to localStorage", err);
+          }
+        }
         navigate("/tasks");
       }
     } catch (err) {

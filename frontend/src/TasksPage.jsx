@@ -7,6 +7,14 @@ const API_BASE =
 
 export default function TasksPage() {
   const [tasks, setTasks] = useState([]);
+  const [user, setUser] = useState(() => {
+    try {
+      const raw = localStorage.getItem("user");
+      return raw ? JSON.parse(raw) : null;
+    } catch (err) {
+      return null;
+    }
+  });
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -74,7 +82,7 @@ export default function TasksPage() {
           <button className="sidebar-link">FAQ</button>
           <button className="sidebar-link">Notifications</button>
           <button className="sidebar-link sidebar-profile">
-            Account / User name
+            {user && user.username ? user.username : "Account / User name"}
           </button>
         </div>
       </aside>
