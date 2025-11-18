@@ -60,14 +60,12 @@ export default function TasksPage() {
     <div className="layout">
       {/* Sidebar */}
       <aside className="sidebar">
-        <div className="sidebar-top">
-          <button className="sidebar-logo-btn">X</button>
-          <button className="sidebar-circle-btn" />
-          <button className="sidebar-circle-btn" />
-        </div>
+        <div className="sidebar-header">TeamBoard</div>
 
         <nav className="sidebar-nav">
-          <button className="sidebar-link active">Search bar with tasks</button>
+          <button className="sidebar-link sidebar-link-active">
+            Search bar with tasks
+          </button>
           <button className="sidebar-link">Project description</button>
           <button className="sidebar-link">Kanban board</button>
         </nav>
@@ -75,7 +73,9 @@ export default function TasksPage() {
         <div className="sidebar-bottom">
           <button className="sidebar-link">FAQ</button>
           <button className="sidebar-link">Notifications</button>
-          <button className="sidebar-profile">Account / User name</button>
+          <button className="sidebar-link sidebar-profile">
+            Account / User name
+          </button>
         </div>
       </aside>
 
@@ -157,11 +157,7 @@ export default function TasksPage() {
       )}
 
       {selectedTask && (
-        <TaskModal
-          mode="view"
-          task={selectedTask}
-          onClose={handleCloseTask}
-        />
+        <TaskModal mode="view" task={selectedTask} onClose={handleCloseTask} />
       )}
     </div>
   );
